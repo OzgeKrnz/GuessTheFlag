@@ -24,11 +24,11 @@ class ViewController: UIViewController {
         
         countries += ["estonia","france","germany","ireland","italy","monaco","nigeria","poland","russia", "spain","uk","us"]
   
-        askQuestion()
+        askQuestion(action:nil)
     }
     
 // write a method that shows three random flag imagex on the screen. Buttons have setImage() method that lets us control what picture is shown inside and when sho we can use that with UIImage to display our flag
-    func askQuestion(){
+    func askQuestion(action: UIAlertAction!){
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
         
@@ -38,18 +38,26 @@ class ViewController: UIViewController {
         
         
         title = countries[correctAnswer].uppercased()
-        title = "Which one is the \(title!) flag?"
 
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
-        if correctAnswer == sender.tag{
-            print("Correct")
+        var title: String
+        
+        if sender.tag == correctAnswer{
+            title = "Correct"
+            score += 1
         }
         else{
-           print("Wrong")
+           title = "Wrong"
+            score -= 1
         }
-        askQuestion()
+        let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
+        
+        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion ))
+        
+        // animated presentation
+        present(ac,animated: true)
         
         
     }
