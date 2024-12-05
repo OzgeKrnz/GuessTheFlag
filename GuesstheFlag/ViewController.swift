@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
+    var questionCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class ViewController: UIViewController {
     
 // write a method that shows three random flag imagex on the screen. Buttons have setImage() method that lets us control what picture is shown inside and when sho we can use that with UIImage to display our flag
     func askQuestion(action: UIAlertAction!){
+        
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
         
@@ -37,8 +39,8 @@ class ViewController: UIViewController {
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
         
-        title = countries[correctAnswer].uppercased()
-
+        title = "\(countries[correctAnswer].uppercased()) Score: \(score)"
+        questionCount += 1
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
@@ -58,6 +60,11 @@ class ViewController: UIViewController {
         
         // animated presentation
         present(ac,animated: true)
+        
+        if questionCount == 10{
+            ac.addAction(UIAlertAction(title: "Finish", style: .cancel, handler: nil))
+            score = 0
+        }
         
         
     }
